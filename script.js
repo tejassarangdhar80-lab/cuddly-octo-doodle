@@ -179,7 +179,38 @@ function sendOtp() {
         }
     });
 }
+let generatedOtp = "";
 
+function sendOtp() {
+
+    const mobile = document.getElementById("signupMobile").value;
+
+    if (mobile.length !== 10) {
+        alert("Enter valid mobile number");
+        return;
+    }
+
+    generatedOtp = Math.floor(100000 + Math.random() * 900000);
+
+    fetch("http://localhost:5000/send-otp", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            mobile: mobile,
+            otp: generatedOtp
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("OTP Sent Successfully 📱");
+        } else {
+            alert("Failed to send OTP");
+        }
+    });
+}
 
 app.listen(5000, () => console.log("Server running on port 5000"));
 // Show/Hide Auth Forms
