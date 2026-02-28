@@ -146,71 +146,42 @@ app.post("/send-otp", async (req, res) => {
         res.json({ success: false, error });
     }
 });
+const express = require("express");
+const axios = require("axios");
+const cors = require("cors");
 
-let generatedOtp = "";
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-function sendOtp() {
+const API_KEY = "YOUR_FAST2SMS_API_KEY";
 
-    const mobile = document.getElementById("signupMobile").value;
+app.post("/send-sms", async (req, res) => {
 
-    if (mobile.length !== 10) {
-        alert("Enter valid mobile number");
-        return;
+    const { mobile, otp } = req.body;
+
+    try {
+        await axios.post("https://www.fast2sms.com/dev/bulkV2", {
+            route: "q",
+            message: `Your OTP is ${otp}`,
+            language: "english",
+            numbers: mobile
+        }, {
+            headers: {
+                authorization: API_KEY,
+                "Content-Type": "application/json"
+            }
+        });
+
+        res.json({ success: true });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false });
     }
+});
 
-    generatedOtp = Math.floor(100000 + Math.random() * 900000);
-
-    fetch("http://localhost:5000/send-otp", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            mobile: mobile,
-            otp: generatedOtp
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert("OTP Sent Successfully 📱");
-        } else {
-            alert("Failed to send OTP");
-        }
-    });
-}
-let generatedOtp = "";
-
-function sendOtp() {
-
-    const mobile = document.getElementById("signupMobile").value;
-
-    if (mobile.length !== 10) {
-        alert("Enter valid mobile number");
-        return;
-    }
-
-    generatedOtp = Math.floor(100000 + Math.random() * 900000);
-
-    fetch("http://localhost:5000/send-otp", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            mobile: mobile,
-            otp: generatedOtp
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert("OTP Sent Successfully 📱");
-        } else {
-            alert("Failed to send OTP");
-        }
-    });
-}
+app.listen(5000, () => console.log("Server running on port 5000"));
 
 app.listen(5000, () => console.log("Server running on port 5000"));
 // Show/Hide Auth Forms
