@@ -146,6 +146,11 @@ app.post("/send-otp", async (req, res) => {
         res.json({ success: false, error });
     }
 });
+
+mkdir otp-project
+cd otp-project
+npm init -y
+npm install express axios cors
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
