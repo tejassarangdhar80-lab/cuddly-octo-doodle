@@ -66,43 +66,6 @@
 
 
 
-
-
-function sendOTP() {
-    let email = document.getElementById("email").value;
-
-    fetch("send_otp_email.php", {
-        method: "POST",
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: "email=" + email
-    })
-    .then(res => res.text())
-    .then(data => {
-        alert(data);
-        document.getElementById("otpSection").style.display = "block";
-    });
-}
-
-function verifyOTP() {
-    let otp = document.getElementById("otp").value;
-
-    fetch("verify_email_otp.php", {
-        method: "POST",
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: "otp=" + otp
-    })
-    .then(res => res.text())
-    .then(data => alert(data));
-}
-</script>
-
-</body>
-</html>
-
-             
-                  
-
-
                     <div class="form-group">
                         <label>Password:</label>
                         <input type="password" id="signupPassword" placeholder="Min 6 characters" required>
