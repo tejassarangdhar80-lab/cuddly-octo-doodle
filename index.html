@@ -58,31 +58,28 @@
                         <input type="email" id="signupEmail" placeholder="your@email.com" required>
                     </div>
 
-                    <!-- OTP Section -->
-<div id="otpSection" style="display:none; margin-top:10px;">
+                      <div class="form-group">
+        <label>Mobile Number:</label>
+        <input type="tel" id="signupMobile"
+               placeholder="Enter 10 digit mobile"
+               maxlength="10"
+               required>
+    </div>
 
-    <label>Enter 6 Digit OTP:</label>
-    <input type="text"
-           id="signupOTP"
-           placeholder="Enter 6 digit OTP"
-           maxlength="6"
-           pattern="\d{6}"
-           inputmode="numeric"
-           required>
-
-    <p id="timerText" style="color:red; font-size:13px; margin-top:5px;">
-        Resend available in <span id="countdown">60</span>s
-    </p>
-
-    <button type="button"
-            id="resendBtn"
-            class="btn btn-warning"
-            onclick="resendOTP()"
-            disabled>
-        Resend OTP
+    <button type="button" class="btn btn-success" onclick="sendOTP()">
+        Send OTP
     </button>
 
-</div>
+    <div id="recaptcha-container" style="margin-top:10px;"></div>
+
+    <div id="otpSection" style="display:none; margin-top:10px;">
+        <label>Enter OTP:</label>
+        <input type="text" id="signupOTP" placeholder="Enter OTP" required>
+        <button type="button" class="btn btn-primary" onclick="verifyOTP()">
+            Verify OTP
+        </button>
+    </div>
+                  
 
 
                     <div class="form-group">
