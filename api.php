@@ -229,7 +229,7 @@ function getParkingArena($conn) {
     echo json_encode($arena);
 }
 
-<?php
+
 session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -266,8 +266,8 @@ try {
 } catch (Exception $e) {
     echo "Email Sending Failed!";
 }
-?>
-<?php
+
+
 session_start();
 
 $userOTP = $_POST['otp'];
