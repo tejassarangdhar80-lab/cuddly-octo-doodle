@@ -229,27 +229,52 @@ function getParkingArena($conn) {
     echo json_encode($arena);
 }
 
-$conn->close();
+<?php
+session_start();
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';  // Composer required
+
+$email = $_POST['email'];
+
+// Generate 6 digit OTP
+$otp = rand(100000, 999999);
+$_SESSION['otp'] = $otp;
+
+$mail = new PHPMailer(true);
+
+try {
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'yourgmail@gmail.com';      // Your Gmail
+    $mail->Password   = 'your_app_password';        // Gmail App Password
+    $mail->SMTPSecure = 'tls';
+    $mail->Port       = 587;
+
+    $mail->setFrom('yourgmail@gmail.com', 'OTP Verification');
+    $mail->addAddress($email);
+
+    $mail->isHTML(true);
+    $mail->Subject = 'Your 6 Digit OTP';
+    $mail->Body    = "<h2>Your OTP is: $otp</h2>";
+
+    $mail->send();
+    echo "OTP Sent Successfully!";
+} catch (Exception $e) {
+    echo "Email Sending Failed!";
+}
 ?>
+<?php
+session_start();
 
- <label>Mobile Number:</label>
-        <input type="tel" id="signupMobile"
-               placeholder="Enter 10 digit mobile"
-               maxlength="10"
-               required>
-    </div>
+$userOTP = $_POST['otp'];
 
-    <button type="button" class="btn btn-success" onclick="sendOTP()">
-        Send OTP
-    </button>
-
-    <div id="recaptcha-container" style="margin-top:10px;"></div>
-
-    <div id="otpSection" style="display:none; margin-top:10px;">
-        <label>Enter OTP:</label>
-        <input type="text" id="signupOTP" placeholder="Enter OTP" required>
-        <button type="button" class="btn btn-primary" onclick="verifyOTP()">
-            Verify OTP
-        </button>
-    </div>
-                  
+if ($userOTP == $_SESSION['otp']) {
+    echo "OTP Verified Successfully ✅";
+} else {
+    echo "Invalid OTP ❌";
+}
+?>
