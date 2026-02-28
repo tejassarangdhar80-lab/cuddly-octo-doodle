@@ -72,6 +72,13 @@
                 OTP will be sent to your registered email address.
             </small>
         </div>
+                    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+    emailjs.init("YOUR_PUBLIC_KEY"); 
+})();
+</script>
                     <div class="form-group">
                         <label>Username:</label>
                         <input type="text" id="signupUsername" placeholder="Choose username" required>
