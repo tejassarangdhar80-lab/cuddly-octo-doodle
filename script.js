@@ -117,9 +117,8 @@ function switchLoginMode(mode) {
     
     document.getElementById('email').value = '';
     document.getElementById('password').value = '';
+}
 
-
-app.listen(5000, () => console.log("Server running on port 5000"));
 // Show/Hide Auth Forms
 function showLoginForm(e) {
     if (e) e.preventDefault();
