@@ -117,76 +117,7 @@ function switchLoginMode(mode) {
     
     document.getElementById('email').value = '';
     document.getElementById('password').value = '';
-}
-const express = require("express");
-const cors = require("cors");
-const twilio = require("twilio");
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-const accountSid = "YOUR_TWILIO_ACCOUNT_SID";
-const authToken = "YOUR_TWILIO_AUTH_TOKEN";
-
-const client = twilio(accountSid, authToken);
-
-app.post("/send-otp", async (req, res) => {
-    const { mobile, otp } = req.body;
-
-    try {
-        await client.messages.create({
-            body: `Your OTP is ${otp}`,
-            from: "YOUR_TWILIO_PHONE_NUMBER",
-            to: `+91${mobile}`
-        });
-
-        res.json({ success: true });
-    } catch (error) {
-        res.json({ success: false, error });
-    }
-});
-
-mkdir otp-project
-cd otp-project
-npm init -y
-npm install express axios cors
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-const API_KEY = "YOUR_FAST2SMS_API_KEY";
-
-app.post("/send-sms", async (req, res) => {
-
-    const { mobile, otp } = req.body;
-
-    try {
-        await axios.post("https://www.fast2sms.com/dev/bulkV2", {
-            route: "q",
-            message: `Your OTP is ${otp}`,
-            language: "english",
-            numbers: mobile
-        }, {
-            headers: {
-                authorization: API_KEY,
-                "Content-Type": "application/json"
-            }
-        });
-
-        res.json({ success: true });
-
-    } catch (error) {
-        console.log(error);
-        res.json({ success: false });
-    }
-});
-
-app.listen(5000, () => console.log("Server running on port 5000"));
 
 app.listen(5000, () => console.log("Server running on port 5000"));
 // Show/Hide Auth Forms
