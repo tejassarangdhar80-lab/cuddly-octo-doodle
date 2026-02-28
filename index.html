@@ -57,6 +57,21 @@
                         <label>Email:</label>
                         <input type="email" id="signupEmail" placeholder="your@email.com" required>
                     </div>
+                      <!-- Send OTP Button -->
+                        <div class="form-group">
+                      <button type="button" class="btn btn-secondary" onclick="sendOtp()">
+                        Send OTP
+                     </button>
+        </div>
+
+        <!-- OTP Field (Email ke niche) -->
+        <div class="form-group">
+            <label>Enter OTP:</label>
+            <input type="text" id="signupOtp" placeholder="Enter 6-digit OTP" required>
+            <small style="color:#666;">
+                OTP will be sent to your registered email address.
+            </small>
+        </div>
                     <div class="form-group">
                         <label>Username:</label>
                         <input type="text" id="signupUsername" placeholder="Choose username" required>
