@@ -231,3 +231,25 @@ function getParkingArena($conn) {
 
 $conn->close();
 ?>
+
+ <label>Mobile Number:</label>
+        <input type="tel" id="signupMobile"
+               placeholder="Enter 10 digit mobile"
+               maxlength="10"
+               required>
+    </div>
+
+    <button type="button" class="btn btn-success" onclick="sendOTP()">
+        Send OTP
+    </button>
+
+    <div id="recaptcha-container" style="margin-top:10px;"></div>
+
+    <div id="otpSection" style="display:none; margin-top:10px;">
+        <label>Enter OTP:</label>
+        <input type="text" id="signupOTP" placeholder="Enter OTP" required>
+        <button type="button" class="btn btn-primary" onclick="verifyOTP()">
+            Verify OTP
+        </button>
+    </div>
+                  
