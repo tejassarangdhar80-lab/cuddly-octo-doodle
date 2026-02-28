@@ -118,33 +118,70 @@ function switchLoginMode(mode) {
     document.getElementById('email').value = '';
     document.getElementById('password').value = '';
 }
+const express = require("express");
+const cors = require("cors");
+const twilio = require("twilio");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const accountSid = "YOUR_TWILIO_ACCOUNT_SID";
+const authToken = "YOUR_TWILIO_AUTH_TOKEN";
+
+const client = twilio(accountSid, authToken);
+
+app.post("/send-otp", async (req, res) => {
+    const { mobile, otp } = req.body;
+
+    try {
+        await client.messages.create({
+            body: `Your OTP is ${otp}`,
+            from: "YOUR_TWILIO_PHONE_NUMBER",
+            to: `+91${mobile}`
+        });
+
+        res.json({ success: true });
+    } catch (error) {
+        res.json({ success: false, error });
+    }
+});
+
 let generatedOtp = "";
 
 function sendOtp() {
-    const email = document.getElementById("signupEmail").value;
 
-    if (!email) {
-        alert("Please enter email first!");
+    const mobile = document.getElementById("signupMobile").value;
+
+    if (mobile.length !== 10) {
+        alert("Enter valid mobile number");
         return;
     }
 
-    // Generate 6 digit OTP
     generatedOtp = Math.floor(100000 + Math.random() * 900000);
 
-    alert("OTP Sent to: " + email + "\nYour OTP is: " + generatedOtp);
+    fetch("http://localhost:5000/send-otp", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            mobile: mobile,
+            otp: generatedOtp
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("OTP Sent Successfully 📱");
+        } else {
+            alert("Failed to send OTP");
+        }
+    });
 }
 
-document.getElementById("signupFormElement").addEventListener("submit", function(e) {
-    e.preventDefault();
 
-    const enteredOtp = document.getElementById("signupOtp").value;
-
-    if (enteredOtp == generatedOtp) {
-        alert("Account Created Successfully ✅");
-    } else {
-        alert("Invalid OTP ❌");
-    }
-});
+app.listen(5000, () => console.log("Server running on port 5000"));
 // Show/Hide Auth Forms
 function showLoginForm(e) {
     if (e) e.preventDefault();
