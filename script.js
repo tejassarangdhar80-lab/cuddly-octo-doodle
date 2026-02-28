@@ -30,36 +30,8 @@ async function apiDelete(endpoint, data) {
     });
     return res.json();
 }
-//mobile api
-let generatedOTP = "";
 
-function sendOTP() {
-    let mobile = document.getElementById("signupMobile").value;
 
-    if(mobile.length !== 10){
-        alert("Enter valid 10 digit mobile number");
-        return;
-    }
-
-    generatedOTP = Math.floor(100000 + Math.random() * 900000);
-    alert("Demo OTP is: " + generatedOTP); // SMS ki jagah demo
-
-    document.getElementById("resendSection").style.display = "block";
-}
-
-function verifyOTP() {
-    let enteredOTP = document.getElementById("otpInput").value;
-
-    if(enteredOTP == generatedOTP){
-        alert("OTP Verified Successfully ✅");
-    } else {
-        alert("Invalid OTP ❌");
-    }
-}
-
-function resendOTP() {
-    sendOTP();
-}
 // Load all data from server
 async function loadAllData() {
     try {
