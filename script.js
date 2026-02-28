@@ -1116,3 +1116,74 @@ function showAdminSection(sectionId) {
         displayAdminUsers();
     }
 }
+
+
+
+// 🔥 Firebase Configuration (Replace with your own keys)
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+// Setup reCAPTCHA
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+  'recaptcha-container',
+  {
+    size: 'normal',
+    callback: function(response) {
+      console.log("reCAPTCHA verified");
+    }
+  }
+);
+
+// 📩 Send OTP Function
+function sendOTP() {
+
+  let mobile = document.getElementById("signupMobile").value;
+
+  if (mobile.length !== 10) {
+    alert("Please enter valid 10 digit mobile number");
+    return;
+  }
+
+  let phoneNumber = "+91" + mobile;
+
+  firebase.auth().signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+    .then(function (confirmationResult) {
+
+      window.confirmationResult = confirmationResult;
+      document.getElementById("otpSection").style.display = "block";
+      alert("OTP Sent Successfully ✅");
+
+    })
+    .catch(function (error) {
+      alert(error.message);
+    });
+}
+
+// 🔐 Verify OTP Function
+function verifyOTP() {
+
+  let otp = document.getElementById("signupOTP").value;
+
+  if (otp.length !== 6) {
+    alert("Enter valid 6 digit OTP");
+    return;
+  }
+
+  confirmationResult.confirm(otp)
+    .then(function (result) {
+
+      alert("Mobile Number Verified Successfully 🎉");
+
+    })
+    .catch(function (error) {
+      alert("Invalid OTP ❌");
+    });
+}
