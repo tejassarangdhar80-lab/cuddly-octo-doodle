@@ -57,27 +57,30 @@
             <label>Email:</label>
             <input type="email" id="signupEmail" placeholder="your@email.com" required>
         </div>
+<!-- OTP Section -->
+<div id="otpSection" style="display:none; margin-top:10px;">
 
-       <div class="form-group">
-    <label>6 Digit Password:</label>
-    <input type="password"
-           id="signupPassword"
-           placeholder="Enter 6 digit password"
-           pattern="\d{6}"
+    <label>Enter 6 Digit OTP:</label>
+    <input type="text"
+           id="signupOTP"
+           placeholder="Enter 6 digit OTP"
            maxlength="6"
+           pattern="\d{6}"
            inputmode="numeric"
            required>
-</div>
 
-<div class="form-group">
-    <label>Confirm Password:</label>
-    <input type="password"
-           id="confirmPassword"
-           placeholder="Re-enter 6 digit password"
-           pattern="\d{6}"
-           maxlength="6"
-           inputmode="numeric"
-           required>
+    <p id="timerText" style="color:red; font-size:13px; margin-top:5px;">
+        Resend available in <span id="countdown">60</span>s
+    </p>
+
+    <button type="button"
+            id="resendBtn"
+            class="btn btn-warning"
+            onclick="resendOTP()"
+            disabled>
+        Resend OTP
+    </button>
+
 </div>
         <div class="form-group">
             <label>Password:</label>
