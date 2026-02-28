@@ -58,21 +58,21 @@
                         <input type="email" id="signupEmail" placeholder="your@email.com" required>
                     </div>
                       
-                   <!-- Mobile Number -->
-<div class="form-group">
-    <label>Mobile Number:</label>
-    <input type="tel" id="signupMobile" placeholder="Enter 10-digit mobile number" required>
-</div>
+                <input type="text" id="signupMobile" placeholder="Enter Mobile Number">
+<button onclick="sendOtp()">Send OTP</button>
 
-<!-- OTP Field -->
-<div class="form-group">
-    <label>Enter OTP:</label>
-    <input type="text" id="signupOtp" placeholder="Enter 6-digit OTP" required>
-    <button type="button" onclick="sendOtp()">Send OTP</button>
-    <small style="color:#666;">
-        OTP will be sent to your mobile number.
-    </small>
-</div>
+<br><br>
+
+<input type="text" id="otpInput" placeholder="Enter OTP">
+<button onclick="verifyOtp()">Verify OTP</button>
+
+<br><br>
+
+<button id="resendBtn" onclick="resendOtp()" disabled>
+    Resend OTP (30s)
+</button>
+
+<script src="script.js"></script>
 
    
                     <div class="form-group">
