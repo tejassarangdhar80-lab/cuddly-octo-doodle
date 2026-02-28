@@ -118,7 +118,33 @@ function switchLoginMode(mode) {
     document.getElementById('email').value = '';
     document.getElementById('password').value = '';
 }
+let generatedOtp = "";
 
+function sendOtp() {
+    const email = document.getElementById("signupEmail").value;
+
+    if (!email) {
+        alert("Please enter email first!");
+        return;
+    }
+
+    // Generate 6 digit OTP
+    generatedOtp = Math.floor(100000 + Math.random() * 900000);
+
+    alert("OTP Sent to: " + email + "\nYour OTP is: " + generatedOtp);
+}
+
+document.getElementById("signupFormElement").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const enteredOtp = document.getElementById("signupOtp").value;
+
+    if (enteredOtp == generatedOtp) {
+        alert("Account Created Successfully ✅");
+    } else {
+        alert("Invalid OTP ❌");
+    }
+});
 // Show/Hide Auth Forms
 function showLoginForm(e) {
     if (e) e.preventDefault();
