@@ -278,3 +278,38 @@ if ($userOTP == $_SESSION['otp']) {
     echo "Invalid OTP ❌";
 }
 ?>
+<?php
+session_start();
+
+if(isset($_POST['send_otp'])){
+    $email = $_POST['email'];
+
+    // Simple OTP generate (6 digit)
+    $otp = rand(100000, 999999);
+
+    // Save OTP in session for verification
+    $_SESSION['otp'] = $otp;
+    $_SESSION['email'] = $email;
+
+    // यहाँ आपको OTP को ईमेल भेजना होगा, मैं यहाँ सिर्फ एको कर रहा हूँ
+    echo "OTP sent to " . $email . ": " . $otp;
+    exit;
+}
+?>
+
+<?php
+session_start();
+
+if(isset($_POST['verify_otp'])){
+    $user_otp = $_POST['otp'];
+
+    if(isset($_SESSION['otp']) && $user_otp == $_SESSION['otp']){
+        echo "OTP verified successfully!";
+        // OTP वेरिफाइड हो गया, आगे का प्रोसेस करें
+        unset($_SESSION['otp']);  // OTP को क्लियर कर दें सुरक्षा के लिए
+    } else {
+        echo "Invalid OTP!";
+    }
+    exit;
+}
+?>
