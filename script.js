@@ -1,3 +1,36 @@
+// Store users in localStorage
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+// Signup
+document.getElementById("signupFormElement").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById("signupName").value;
+    let email = document.getElementById("signupEmail").value;
+    let password = document.getElementById("signupPassword").value;
+
+    // Check if user already exists
+    let userExists = users.find(user => user.email === email);
+
+    if (userExists) {
+        alert("User already exists!");
+        return;
+    }
+
+    let newUser = {
+        name: name,
+        email: email,
+        password: password
+    };
+
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Account created successfully!");
+
+    showLoginForm(); // back to login
+});
+
 // Login System
 let currentLoginMode = 'user'; // 'user' or 'admin'
 let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
