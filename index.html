@@ -77,6 +77,150 @@
     <label>Verify OTP:</label>
     <button type="button" class="btn-green">Verify OTP</button>
 </div>
+
+    <script>
+// =======================
+// DEFAULT ADMIN LOGIN
+// =======================
+const ADMIN_EMAIL = "admin@parking.com";
+const ADMIN_PASSWORD = "admin123";
+
+// =======================
+// DEFAULT USER (FIRST TIME)
+// =======================
+if (!localStorage.getItem("users")) {
+    localStorage.setItem("users", JSON.stringify([
+        { email: "user@parking.com", password: "123456" }
+    ]));
+}
+
+// =======================
+// LOGIN MODE SWITCH
+// =======================
+let loginMode = "user";
+
+function switchLoginMode(mode) {
+    loginMode = mode;
+
+    document.getElementById("loginTitle").innerText =
+        mode === "admin" ? "Admin Login" : "User Login";
+
+    document.getElementById("email").placeholder =
+        mode === "admin" ? "admin@parking.com" : "user@parking.com";
+
+    // button highlight
+    document.getElementById("userModeBtn").classList.toggle("active", mode === "user");
+    document.getElementById("adminModeBtn").classList.toggle("active", mode === "admin");
+}
+
+// =======================
+// LOGIN FUNCTION
+// =======================
+document.getElementById("loginFormElement").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (loginMode === "admin") {
+        // ADMIN LOGIN
+        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+            alert("✅ Admin Login Successful");
+
+            document.getElementById("loginContainer").style.display = "none";
+            document.getElementById("adminContainer").style.display = "block";
+        } else {
+            alert("❌ Invalid Admin Credentials");
+        }
+
+    } else {
+        // USER LOGIN
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+            alert("✅ User Login Successful");
+
+            document.getElementById("loginContainer").style.display = "none";
+            document.getElementById("mainApp").style.display = "block";
+
+            // profile display
+            document.getElementById("userNameDisplay").innerText = email.split("@")[0];
+            document.getElementById("userEmailDisplay").innerText = email;
+            document.getElementById("profileEmail").innerText = email;
+            document.getElementById("profileUsername").innerText = email.split("@")[0];
+            document.getElementById("profileLoginTime").innerText = new Date().toLocaleString();
+            document.getElementById("profileLastUpdated").innerText = new Date().toLocaleString();
+
+        } else {
+            alert("❌ Invalid User Credentials");
+        }
+    }
+});
+
+// =======================
+// SIGNUP FUNCTION
+// =======================
+document.getElementById("signupFormElement").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    if (password.length < 6) {
+        alert("Password must be at least 6 characters");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if (users.find(u => u.email === email)) {
+        alert("User already exists!");
+        return;
+    }
+
+    users.push({ email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("✅ Account Created Successfully!");
+    showLoginForm();
+});
+
+// =======================
+// LOGOUT
+// =======================
+document.getElementById("logoutBtn").addEventListener("click", () => location.reload());
+document.getElementById("adminLogoutBtn").addEventListener("click", () => location.reload());
+
+// =======================
+// FORM SWITCHING
+// =======================
+function showSignupForm(e) {
+    e.preventDefault();
+    document.getElementById("loginForm").classList.remove("active");
+    document.getElementById("signupForm").classList.add("active");
+}
+
+function showLoginForm(e) {
+    if (e) e.preventDefault();
+    document.getElementById("signupForm").classList.remove("active");
+    document.getElementById("forgotPasswordForm").classList.remove("active");
+    document.getElementById("loginForm").classList.add("active");
+}
+
+function showForgotPasswordForm(e) {
+    e.preventDefault();
+    document.getElementById("loginForm").classList.remove("active");
+    document.getElementById("forgotPasswordForm").classList.add("active");
+}
+</script>    
         <!-- Password Section -->
         <div class="section-title">Set Password</div>
 
