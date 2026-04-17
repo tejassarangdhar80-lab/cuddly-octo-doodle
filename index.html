@@ -267,7 +267,24 @@ function showForgotPasswordForm(e) {
         </div>
     </div>
 
-    <!-- Admin Dashboard -->
+                    <form id="settingsForm">    <!-- Admin Dashboard -->
+    <div id="adminContainer" style="display: none;">
+        <header>
+            <div class="header-content">
+                <h1>🔐 Admin Dashboard</h1>
+                <button id="adminLogoutBtn" class="btn btn-logout">Logout</button>
+            </div>
+        </header>
+
+        <nav class="navbar">
+            <a href="#adminDashboard" class="nav-link active">Dashboard</a>
+            <a href="#adminUsers" class="nav-link">Users</a>
+            <a href="#adminSettings" class="nav-link">Settings</a>
+        </nav>
+
+        <div class="container">
+            
+             <!-- Admin Dashboard -->
     <div id="adminContainer" style="display: none;">
         <header>
             <div class="header-content">
@@ -662,3 +679,4 @@ function showForgotPasswordForm(e) {
     <script src="script.js"></script>
 </body>
 </html>
+                                
