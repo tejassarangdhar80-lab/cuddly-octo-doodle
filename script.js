@@ -1,3 +1,57 @@
+document.getElementById("loginFormElement").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    let user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+        alert("Login successful!");
+        document.getElementById("loginContainer").style.display = "none";
+        document.getElementById("mainApp").style.display = "block";
+
+        document.getElementById("userNameDisplay").innerText = user.name;
+        document.getElementById("userEmailDisplay").innerText = user.email;
+
+    } else {
+        alert("Invalid email or password!");
+    }
+});
+// Store users in localStorage
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+// Signup
+document.getElementById("signupFormElement").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById("signupName").value;
+    let email = document.getElementById("signupEmail").value;
+    let password = document.getElementById("signupPassword").value;
+
+    // Check if user already exists
+    let userExists = users.find(user => user.email === email);
+
+    if (userExists) {
+        alert("User already exists!");
+        return;
+    }
+
+    let newUser = {
+        name: name,
+        email: email,
+        password: password
+    };
+
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Account created successfully!");
+
+    showLoginForm(); // back to login
+});
+
+
 // ==========================
 // PARKING MANAGEMENT SYSTEM
 // CLEAN FULL VERSION
